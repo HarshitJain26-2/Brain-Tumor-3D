@@ -27,7 +27,7 @@ RUN pip install --no-cache-dir -r requirements_deploy.txt
 COPY app/ ./app
 COPY scripts/ ./scripts
 COPY models/ ./models
-COPY "Sample Data Original/" "./Sample Data Original/"
+COPY sample_data_original/ ./sample_data_original/
 
 # Copy built frontend from stage 1
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist

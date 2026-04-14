@@ -50,7 +50,7 @@ app = FastAPI(
 
 @app.get("/download-sample")
 async def download_sample():
-    sample_dir = os.path.join(_ROOT, "Sample Data Original")
+    sample_dir = os.path.join(_ROOT, "sample_data_original")
     if not os.path.isdir(sample_dir):
         raise HTTPException(status_code=404, detail="Sample data directory not found")
         
