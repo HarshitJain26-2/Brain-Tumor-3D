@@ -25,6 +25,7 @@ RUN pip install --no-cache-dir -r requirements_deploy.txt
 
 # Copy backend code
 COPY app/ ./app
+COPY scripts/ ./scripts
 COPY models/ ./models
 COPY sample_data/ ./sample_data
 
