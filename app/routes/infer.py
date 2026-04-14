@@ -26,8 +26,8 @@ UPLOAD_DIR = os.path.join(
 async def _save_upload(upload: UploadFile, dest: str):
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     with open(dest, "wb") as f:
-        content = await upload.read()
-        f.write(content)
+        while chunk := await upload.read(1024 * 1024):  # 1MB chunks
+            f.write(chunk)
 
 
 @router.post("/predict")

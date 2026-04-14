@@ -5,6 +5,8 @@ import { toast } from 'react-hot-toast'
 
 interface Props {
   jobId: string | null
+  isUploading: boolean
+  uploadProgress: number
   onStatusChange?: (status: string) => void
   onStatsChange?: (stats: any) => void
   onGenerateReport?: () => void
@@ -18,7 +20,7 @@ interface JobState {
   stats: any
 }
 
-export default function ProgressPanel({ jobId, onStatusChange, onStatsChange, onGenerateReport, onSyncFocus }: Props) {
+export default function ProgressPanel({ jobId, isUploading, uploadProgress, onStatusChange, onStatsChange, onGenerateReport, onSyncFocus }: Props) {
   const [job, setJob] = useState<JobState>({
     status: 'idle',
     progress: 0,
@@ -80,19 +82,26 @@ export default function ProgressPanel({ jobId, onStatusChange, onStatsChange, on
       {/* Progress Bar Container */}
       <div className="space-y-4">
          <div className="flex justify-between items-end mb-1 px-1">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Analysis Progress</span>
-            <span className="text-3xl font-black text-slate-900">{job.progress}%</span>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              {isUploading ? 'Uploading Data Packet' : 'Global Analysis Progress'}
+            </span>
+            <span className="text-3xl font-black text-slate-900">{isUploading ? uploadProgress : job.progress}%</span>
          </div>
          
          <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden p-0.5 shadow-inner">
             <motion.div 
               initial={{ width: 0 }}
-              animate={{ width: `${job.progress}%` }}
-              className="h-full rounded-full bg-accent-blue relative shadow-soft"
+              animate={{ width: `${isUploading ? uploadProgress : job.progress}%` }}
+              className={`h-full rounded-full relative shadow-soft transition-colors duration-500 ${isUploading ? 'bg-amber-500' : 'bg-accent-blue'}`}
             >
               <div className="absolute inset-0 bg-white/20 animate-pulse" />
             </motion.div>
          </div>
+         {isUploading && (
+           <p className="text-[9px] text-amber-600 font-bold uppercase tracking-tight animate-pulse text-center">
+             Streaming high-resolution imaging data to secure cloud...
+           </p>
+         )}
       </div>
 
       {/* Analysis Legend */}

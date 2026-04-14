@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Play, RotateCcw, Binary, Brain, LayoutDashboard, Database, BarChart3 } from 'lucide-react'
+import { Play, RotateCcw, Binary, Brain, LayoutDashboard, Database, BarChart3, Loader2 } from 'lucide-react'
 import Sidebar from './components/Sidebar'
 import UploadZone from './components/UploadZone'
 import NiiVueViewer from './components/NiiVueViewer'
@@ -36,6 +36,9 @@ export default function App() {
 
   const isReady = Object.values(files).every(f => f !== null)
 
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
+
   // Polling for model-info until loaded
   useEffect(() => {
     let timer: number
@@ -59,9 +62,12 @@ export default function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const runInference = async () => {
-    if (!isReady) return
+  const runInference = () => {
+    if (!isReady || isUploading) return
     
+    setIsUploading(true)
+    setUploadProgress(0)
+
     const formData = new FormData()
     Object.entries(files).forEach(([mod, file]) => {
       if (file) formData.append(mod, file)
@@ -70,19 +76,35 @@ export default function App() {
     formData.append('fast', String(fastMode))
     formData.append('patch_size', patchSize)
     
-    try {
-      const res = await fetch('/predict', { method: 'POST', body: formData })
-      const data = await res.json()
-      if (res.ok) {
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', '/predict')
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const pct = Math.round((event.loaded / event.total) * 100)
+        setUploadProgress(pct)
+      }
+    }
+
+    xhr.onload = () => {
+      setIsUploading(false)
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const data = JSON.parse(xhr.responseText)
         setJobId(data.job_id)
-        toast.success('Inference started!')
+        toast.success('Upload complete! Inference starting...')
         setActiveTab('dashboard')
       } else {
-        toast.error(data.detail || 'Prediction failed')
+        const errorData = JSON.parse(xhr.responseText || '{}')
+        toast.error(errorData.detail || 'Upload failed')
       }
-    } catch (e) {
+    }
+
+    xhr.onerror = () => {
+      setIsUploading(false)
       toast.error('Network error during upload')
     }
+
+    xhr.send(formData)
   }
 
   const resetAll = () => {
@@ -143,10 +165,11 @@ export default function App() {
               </button>
               <button 
                 onClick={runInference}
-                disabled={!isReady || (jobId !== null && jobStatus !== 'done')}
+                disabled={!isReady || isUploading || (jobId !== null && jobStatus !== 'done')}
                 className="px-8 py-2.5 rounded-2xl bg-accent-blue hover:bg-blue-700 transition-all active:scale-95 disabled:opacity-30 disabled:grayscale shadow-apple text-white font-bold text-sm flex items-center gap-2"
               >
-                <Play className="w-4 h-4 fill-current" /> Run Analysis
+                {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-current" />}
+                {isUploading ? 'Uploading...' : 'Run Analysis'}
               </button>
             </div>
           )}
@@ -177,6 +200,8 @@ export default function App() {
             <div className="flex flex-col gap-8">
               <ProgressPanel 
                 jobId={jobId} 
+                isUploading={isUploading}
+                uploadProgress={uploadProgress}
                 onStatusChange={setJobStatus} 
                 onStatsChange={setStats} 
                 onGenerateReport={handleGenerateReport}
