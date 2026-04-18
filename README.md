@@ -1,15 +1,6 @@
----
-title: NeuroSeg AI - 3D Brain Tumor Segmenter
-emoji: 🧠
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
----
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/HarshitJain26-2/Brain-Tumor-3D/main/frontend/public/favicon.svg" alt="NeuroSeg AI Logo" width="120" onerror="this.src='https://cdn.iconscout.com/icon/premium/png-256-thumb/brain-network-2144357-1804245.png'"/>
+  <img src="frontend/public/logo.png" alt="NeuroSeg AI Logo" width="120" />
 
 # 🧬 NeuroSeg AI: 3D Brain Tumor Segmentation
 ### Advanced Radiology Intelligence & Volumetric Analysis
@@ -39,33 +30,42 @@ Our architecture is decoupled to ensure inference speed, parallel processing, an
 
 ```mermaid
 graph TD
-    subgraph Frontend [Clinical Dashboard - React / Vite]
-        UI[User Interface]
-        MI[Modality Ingestion]
-        RD[Report Rendering & PDF]
-        UI -->|Upload NIfTI Scans| MI
+    %% Styling for high visibility and premium feel
+    classDef frontend fill:#f0f7ff,stroke:#0369a1,stroke-width:2px,color:#0c4a6e;
+    classDef backend fill:#f0fdf4,stroke:#15803d,stroke-width:2px,color:#064e3b;
+    classDef ml fill:#fff7ed,stroke:#c2410c,stroke-width:2px,color:#7c2d12;
+    classDef process fill:#fafafa,stroke:#737373,stroke-width:1px,stroke-dasharray: 5 5;
+
+    subgraph FE ["💻 CLINICAL DASHBOARD (REACT / VITE)"]
+        UI["<b>User Interface</b><br/>Glassmorphism UI"]:::frontend
+        MI["<b>Modality Ingestion</b><br/>Parallel Uploads"]:::frontend
+        RD["<b>Diagnostic Reports</b><br/>PDF Generation"]:::frontend
+        UI --> MI
     end
 
-    subgraph Backend [FastAPI / Uvicorn Server]
-        API[REST API Router]
-        JS[Job Scheduler & Queue]
-        MS[Model Service Engine]
-        API --> JS
-        JS --> MS
+    subgraph BE ["⚙️ FASTAPI BACKEND"]
+        API["<b>REST Gateway</b><br/>Uvicorn / Pydantic"]:::backend
+        JS["<b>Job Scheduler</b><br/>Singleton Queue"]:::backend
+        MS["<b>Inference Engine</b><br/>SSE Streaming"]:::backend
+        API --> JS --> MS
     end
     
-    subgraph Machine Learning [AI / PyTorch Pipeline]
-        DP[NIfTI Preprocessing]
-        MDL[3D Residual U-Net]
-        PP[Argmax & Volumetric Calc]
-        MS -->|Raw Tensors| DP
-        DP --> MDL
-        MDL --> PP
-        PP -->|Segmentation Masks & Stats| MS
+    subgraph AI ["🧠 AI PIPELINE (PYTORCH)"]
+        DP["<b>Preprocessing</b><br/>MONAI Transforms"]:::ml
+        MDL["<b>3D Residual U-Net</b><br/>Inference Path"]:::ml
+        PP["<b>Volumetrics</b><br/>Segment Geometry"]:::ml
+        DP --> MDL --> PP
     end
     
-    MI -.->|Multipart Form Data| API
-    MS -.->|SSE Events / JSON Stats| RD
+    %% Connections with descriptive labels
+    MI -- "NIfTI Multipart Stream" --> API
+    MS -- "Raw Voxel Tensors" --> DP
+    PP -- "Segmentation Stats" --> MS
+    MS -- "Live SSE Events" --> RD
+
+    %% Link Styling
+    linkStyle default stroke:#94a3b8,stroke-width:1px;
+    linkStyle 4,5,6,7 stroke:#0369a1,stroke-width:2px;
 ```
 
 ---
@@ -188,6 +188,4 @@ npm run build
 
 ---
 
-<p align="center">
-  <i>© 2026 NeuroSeg AI Labs • Advanced 3D Radiology Intelligence</i>
-</p>
+
