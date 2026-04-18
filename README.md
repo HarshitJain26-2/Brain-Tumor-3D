@@ -12,7 +12,7 @@ pinned: false
   <img src="https://raw.githubusercontent.com/HarshitJain26-2/Brain-Tumor-3D/main/frontend/public/favicon.svg" alt="NeuroSeg AI Logo" width="120" onerror="this.src='https://cdn.iconscout.com/icon/premium/png-256-thumb/brain-network-2144357-1804245.png'"/>
 
 # 🧬 NeuroSeg AI: 3D Brain Tumor Segmentation
-**Advanced Radiology Intelligence & Volumetric Analysis**
+### Advanced Radiology Intelligence & Volumetric Analysis
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
@@ -27,15 +27,15 @@ pinned: false
 
 ## 🌟 Executive Summary
 
-**NeuroSeg AI** is a state-of-the-art medical imaging application designed for fully autonomous, high-precision 3D brain tumor segmentation. Leveraging a deep **Residual U-Net (UNet-3D)** architecture, the platform ingests patient NIfTI scans (FLAIR, T1, T1CE, T2) and performs computationally intensive volumetric spatial analysis to classify Whole Tumor (WT), Necrotic Core (NCR), Peritumoral Edema (ED), and GD-Enhancing Tumor (ET) boundaries.
+NeuroSeg AI is a state-of-the-art medical imaging application designed for fully autonomous, high-precision 3D brain tumor segmentation. Leveraging a deep Residual U-Net (**UNet-3D**) architecture, the platform ingests patient NIfTI scans (FLAIR, T1, T1CE, T2) and performs computationally intensive volumetric spatial analysis to classify Whole Tumor (WT), Necrotic Core (NCR), Peritumoral Edema (ED), and GD-Enhancing Tumor (ET) boundaries.
 
-Designed for clinical agility, it bridges sophisticated PyTorch deep learning with a blazing-fast **FastAPI** backend and an ultra-modern, glassmorphism **React** diagnostic dashboard.
+Designed for clinical agility, it bridges sophisticated PyTorch deep learning with a blazing-fast FastAPI backend and an ultra-modern, glassmorphism-inspired React diagnostic dashboard.
 
 ---
 
 ## 🏗️ System Architecture & Data Flow
 
-Our architecture is decoupled to ensure inference speed, parallel processing, and fluid user experience.
+Our architecture is decoupled to ensure inference speed, parallel processing, and a fluid user experience.
 
 ```mermaid
 graph TD
@@ -72,11 +72,11 @@ graph TD
 
 ## 🚀 Key Capabilities
 
-- **Autonomous 3D Segmentation**: Precise tumor localization and quad-class categorization using customized MONAI/PyTorch UNet-3D.
+- **Autonomous 3D Segmentation**: Precise tumor localization and quad-class categorization using a customized MONAI/PyTorch UNet-3D.
 - **Multi-Modal Support**: Intelligent aggregation of native weighted (T1), contrast-enhanced (T1CE), T2-weighted, and Fluid-Attenuated (FLAIR) dimensions.
-- **Volumetric Spatial Analysis**: Real-time extraction of tumor mass bounding boxes (HWD), volumetric density in mm³ and primary focal point tracking.
-- **Automated Clinical Reporting**: Generate pixel-perfect, highly professional one-page Clinical Analysis Reports into PDF format directly from the browser window.
-- **High-Concurrency Pipeline**: Handles heavyweight `.nii.gz` scans locally or via HuggingFace Spaces through optimized ONNX exports.
+- **Volumetric Spatial Analysis**: Real-time extraction of tumor mass bounding boxes (HWD), volumetric density in mm³, and primary focal point tracking.
+- **Automated Clinical Reporting**: Generate pixel-perfect, professional Clinical Analysis Reports in PDF format directly from the browser.
+- **High-Concurrency Pipeline**: Handles heavyweight `.nii.gz` scans locally or via Hugging Face Spaces through optimized inference orchestration.
 
 ---
 
@@ -89,7 +89,7 @@ graph TD
 *   **Architecture**: Optimized 3D Residual U-Net.
 
 ### High-Performance Backend
-*   **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + Pydantic.
+*   **Framework**: [FastAPI](https://fastapi.tiangolo.com/) + Pydantic for robust API definitions.
 *   **Server**: Uvicorn ASGI server with SSE (Server-Sent Events) streaming.
 *   **Concurrency**: Singleton ModelService pattern handling thread-safe background inference.
 
@@ -97,8 +97,8 @@ graph TD
     
 *   **Core**: [React 18](https://react.dev/) + TypeScript + Vite.
 *   **Styling**: [Tailwind CSS](https://tailwindcss.com/) with pure Vanilla CSS extensions.
-*   **Motion**: [Framer Motion](https://www.framer.com/motion/) scale & stagger micro-animations.
-*   **Icons**: Lucide React workflow visualizations.
+*   **Motion**: [Framer Motion](https://www.framer.com/motion/) for scale & stagger micro-animations.
+*   **Icons**: [Lucide React](https://lucide.dev/) workflow visualizations.
 
 ---
 
@@ -106,21 +106,21 @@ graph TD
 
 ```text
 Brain-Tumor-3D/
-├── frontend/                     # React + Vite + TypeScript Frontend
+├── frontend/                     # React + Vite UI
 │   ├── src/
 │   │   ├── components/           # Reusable UI (Sidebar, MedicalReport, etc)
 │   │   ├── hooks/                # Async job polling & SSE tracking
 │   │   ├── index.css             # Vanilla CSS + Tailwind tokens
 │   │   └── App.tsx               # Primary Orchestrator & Viewport
-├── app/                          # FastAPI Backend Server
-│   ├── routes/                   # API entry points (ingestion, predict)
+├── app/                          # FastAPI Backend
+│   ├── routes/                   # API entry points (ingestion, health)
 │   ├── main.py                   # Server lifespan and static file serving
 │   └── model_service.py          # Singleton pipeline orchestrating UNet-3D
-├── scripts/                      # Machine Learning Training Environment
-│   ├── train.py                  # Distributed model training loop
+├── scripts/                      # ML Training Environment
+│   ├── train.py                  # Model training loop
 │   ├── unet3d.py                 # Core AI topology definitions
 │   ├── dataset.py                # DataLoader & Transform pipelines
-│   └── cross_validate.py         # Statistical K-Fold validation methods
+│   └── cross_validate.py         # Statistical K-Fold validation
 ├── models/                       # Inference Weights Directory
 │   └── best_model.pth            # 275MB Checkpoint (Git LFS)
 └── sample_data/                  # Demo BraTS NIfTI files
@@ -130,26 +130,28 @@ Brain-Tumor-3D/
 
 ## ⚡ Deployment & Installation Guide
 
-For researchers and developers, establishing the local environment is straightforward.
+### 1. Repository Setup & Git LFS
 
-### 1. Repository Setup & LFS
+Verify that Git LFS is operational for handling the large medical model weights.
 
-Since medical models are massive, verify that Git LFS is operational.
 ```bash
 git clone https://github.com/HarshitJain26-2/Brain-Tumor-3D.git
 cd Brain-Tumor-3D
 
-# Critical: Pull the 275MB .pth model file
+# Critical: Ensure Git LFS pulls the 275MB model weights
 git lfs install
 git lfs pull
 ```
 
-### 2. Backend Initialization
+### 2. Backend Initialization (Python 3.10+)
 
 ```bash
-# Instantiate Virtual Environment (Python 3.10+)
+# Instantiate Virtual Environment
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+# Windows:
+.\venv\Scripts\activate
+# Unix:
+source venv/bin/activate
 
 # Install Medical AI Stack
 pip install -r requirements.txt
@@ -161,6 +163,7 @@ python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ### 3. Frontend Compilation
 
 In a separate terminal, deploy the diagnostic dashboard:
+
 ```bash
 cd frontend
 npm install
@@ -168,27 +171,23 @@ npm install
 # Option A: Local Dev Server
 npm run dev
 
-# Option B: Build for Production (Recommended)
+# Option B: Build for Production
 # The backend will automatically serve these static files on localhost:8000
 npm run build
 ```
 
 ---
 
-## 🩺 System Usage & Clinical Workflows
+## 🩺 Clinical Workflows
 
-1. Access the Intelligence Dashboard via **http://localhost:8000**.
-2. Navigate to **Modality Ingestion** and supply the 4 required MRI modalities (`FLAIR, T1, T1CE, T2`).
-3. Set the **Optimization Mode** (Fast/Precision) and engage the inference pipeline.
-4. Review the 3D rendered spatial segments and algorithmic diagnostic summaries.
-5. Click **"Print / Save PDF"** to generate the final verified Clinical Analysis Report.
+1. **Access Dashboard**: Open `http://localhost:8000` (or the Vite dev port).
+2. **Modality Ingestion**: Supply the 4 required MRI modalities (FLAIR, T1, T1CE, T2).
+3. **Inference**: Set Optimization Mode and engage the pipeline.
+4. **Analysis**: Review 3D spatial segments and algorithmic diagnostic summaries.
+5. **Reporting**: Click "Save PDF" to generate the final Clinical Analysis Report.
 
 ---
 
-## 📜 Legal & Licensing
-
-This software is released under the **MIT License**. It is strictly intended for research, pedagogical, and demonstrative purposes. *NeuroSeg AI is not certified for definitive clinical diagnosis without human radiology oversight.* 
-
 <p align="center">
-  <i>© 2026 Neuroseg AI Labs • Advanced 3D Radiology Intelligence</i>
+  <i>© 2026 NeuroSeg AI Labs • Advanced 3D Radiology Intelligence</i>
 </p>
