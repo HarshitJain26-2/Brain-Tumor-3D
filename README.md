@@ -29,35 +29,34 @@ Designed for clinical agility, it bridges sophisticated PyTorch deep learning wi
 Our architecture is decoupled to ensure inference speed, parallel processing, and a fluid user experience.
 
 ```mermaid
-graph TD
+flowchart TD
     %% Styling for high visibility and premium feel
     classDef frontend fill:#f0f7ff,stroke:#0369a1,stroke-width:2px,color:#0c4a6e;
     classDef backend fill:#f0fdf4,stroke:#15803d,stroke-width:2px,color:#064e3b;
     classDef ml fill:#fff7ed,stroke:#c2410c,stroke-width:2px,color:#7c2d12;
-    classDef process fill:#fafafa,stroke:#737373,stroke-width:1px,stroke-dasharray: 5 5;
 
-    subgraph FE ["💻 CLINICAL DASHBOARD (REACT / VITE)"]
-        UI["<b>User Interface</b><br/>Glassmorphism UI"]:::frontend
-        MI["<b>Modality Ingestion</b><br/>Parallel Uploads"]:::frontend
-        RD["<b>Diagnostic Reports</b><br/>PDF Generation"]:::frontend
+    subgraph FE ["Clinical Dashboard"]
+        UI["User Interface"]:::frontend
+        MI["Modality Ingestion"]:::frontend
+        RD["Diagnostic Reports"]:::frontend
         UI --> MI
     end
 
-    subgraph BE ["⚙️ FASTAPI BACKEND"]
-        API["<b>REST Gateway</b><br/>Uvicorn / Pydantic"]:::backend
-        JS["<b>Job Scheduler</b><br/>Singleton Queue"]:::backend
-        MS["<b>Inference Engine</b><br/>SSE Streaming"]:::backend
+    subgraph BE ["FastAPI Backend"]
+        API["REST Gateway"]:::backend
+        JS["Job Scheduler"]:::backend
+        MS["Inference Engine"]:::backend
         API --> JS --> MS
     end
     
-    subgraph AI ["🧠 AI PIPELINE (PYTORCH)"]
-        DP["<b>Preprocessing</b><br/>MONAI Transforms"]:::ml
-        MDL["<b>3D Residual U-Net</b><br/>Inference Path"]:::ml
-        PP["<b>Volumetrics</b><br/>Segment Geometry"]:::ml
+    subgraph AI ["AI Pipeline"]
+        DP["Preprocessing"]:::ml
+        MDL["3D Residual U-Net"]:::ml
+        PP["Volumetrics"]:::ml
         DP --> MDL --> PP
     end
     
-    %% Connections with descriptive labels
+    %% Connections
     MI -- "NIfTI Multipart Stream" --> API
     MS -- "Raw Voxel Tensors" --> DP
     PP -- "Segmentation Stats" --> MS
@@ -65,7 +64,10 @@ graph TD
 
     %% Link Styling
     linkStyle default stroke:#94a3b8,stroke-width:1px;
-    linkStyle 4,5,6,7 stroke:#0369a1,stroke-width:2px;
+    linkStyle 4 stroke:#0369a1,stroke-width:2px;
+    linkStyle 5 stroke:#0369a1,stroke-width:2px;
+    linkStyle 6 stroke:#0369a1,stroke-width:2px;
+    linkStyle 7 stroke:#0369a1,stroke-width:2px;
 ```
 
 ---
